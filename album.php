@@ -18,17 +18,24 @@
                 <input type="text" class="search-field" placeholder="Поиск по пользователям и заголовкам">
             </div>
             <div class="header-nav">
-                <span class="header-nav-element">Войти</span>
-                <div class="middle-nav-element">
-                    <span class="header-nav-element">Регистрация</span>
-                </div>
-                <span class="header-nav-element">О сайте</span>
+                <?php
+                if (true)
+                    echo
+                    '<span class="header-nav-element">Войти</span>
+                    <div class="spec-nav-element">
+                        <span class="header-nav-element">Регистрация</span>
+                    </div>
+                    <span class="header-nav-element">О сайте</span>';
+                else
+                    echo 
+                    '<img src="img/upload.png">
+                    <div class="spec-nav-element">
+                        <span class="header-nav-element">Моя галерея</span>
+                    </div>
+                    <span class="header-nav-element">О сайте</span>
+                    <span class="header-nav-element">Выйти</span>';
+                ?>
             </div>
         </header>
-        <span class="main-top-label">Делись изображениями</span>
-        <span class="main-bottom-label">Регистрируйся прямо сейчас и начни бесплатно загружать всё, что пожелаешь </span>
-        <button class="start-now-button">
-            Начни сейчас
-        </button>
     </body>
 </html>
