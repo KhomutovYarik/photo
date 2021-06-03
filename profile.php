@@ -37,5 +37,26 @@
                 ?>
             </div>
         </header>
+        <div class="profile-info-block">
+            <img src="img/cat.jpg">
+            <div class="profile-info">
+                <span class="profile-username">Najeeb Akbari</span>
+                <span class="images-count">Изображений: 5</span>
+            </div>
+        </div>
+        <div class="profile-nav-block">
+            <div class="profile-nav-element">
+                Изображения
+            </div>
+            <div class="profile-nav-element">
+                Альбомы
+            </div>
+            <div class="profile-nav-element">
+                Настройки
+            </div>
+            <div class="profile-nav-element">
+                Фотоплёнка
+            </div>
+        </div>
     </body>
 </html>

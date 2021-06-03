@@ -1,6 +1,56 @@
 body
 {
-    margin: 0 auto;
     background-image: url('../img/mountains.jpg');
-    background-size: cover;
+}
+
+.middle-page-part
+{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin-top: calc(50px + (300 - 50) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.middle-page-part span
+{
+    font-weight: normal;
+    color: #FFF;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+}
+
+.main-top-label
+{
+    font-size: calc(16.7px + (100 - 16.7) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.main-bottom-label
+{
+    font-size: calc(8.3px + (50 - 8.3) * ((100vw - 320px) / (1920 - 320)));
+    margin-top: calc(6.7px + (40 - 6.7) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.middle-page-part button
+{
+    width: fit-content;
+    font-weight: bold;
+    font-size: calc(9px + (54 - 9) * ((100vw - 320px) / (1920 - 320)));
+    border: 0px;
+    border-radius: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+    padding-top: calc(3px + (18 - 3) * ((100vw - 320px) / (1920 - 320)));
+    padding-bottom: calc(3px + (18 - 3) * ((100vw - 320px) / (1920 - 320)));
+    padding-left: calc(7.5px + (45 - 7.5) * ((100vw - 320px) / (1920 - 320)));
+    padding-right: calc(7.5px + (45 - 7.5) * ((100vw - 320px) / (1920 - 320)));
+    margin-top: calc(8.3px + (50 - 8.3) * ((100vw - 320px) / (1920 - 320)));
+    cursor: pointer;
+}
+
+.middle-page-part .start-load-button
+{
+    background-color: #0094FF;
+    color: #FFF;
+    padding-top: calc(4.3px + (26 - 4.3) * ((100vw - 320px) / (1920 - 320)));
+    padding-bottom: calc(4.3px + (26 - 4.3) * ((100vw - 320px) / (1920 - 320)));
+    padding-left: calc(8.3px + (50 - 8.3) * ((100vw - 320px) / (1920 - 320)));
+    padding-right: calc(8.3px + (50 - 8.3) * ((100vw - 320px) / (1920 - 320)));
 }

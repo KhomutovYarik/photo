@@ -1,0 +1,56 @@
+body
+{
+    margin: 0 auto;
+    background-size: cover;
+    font-family: 'Roboto';
+}
+
+a
+{
+  text-decoration: none;
+  color: #FFF;
+}
+
+.reg-auth-header
+{
+    display: flex;
+    justify-content: center;
+    background-color: #343333;
+    width: calc(320px + (1920 - 320) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(13.3px + (80 - 13.3) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.header-logo
+{
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    font-weight: 500;
+    font-size: calc(10.7px + (64 - 10.7) * ((100vw - 320px) / (1920 - 320)));
+    color: #E0DFDF;
+    margin-left: calc(4.2px + (25 - 4.2) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.logo-circle
+{
+    width: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+    margin-left: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+    margin-top: calc(0.7px + (4 - 0.7) * ((100vw - 320px) / (1920 - 320)));
+    border-radius: 50%;
+}
+
+.first-logo-circle
+{
+    background-color: #00FF19;
+}
+
+.second-logo-circle
+{
+    background-color: #2BF2FF;
+}
+
+.logo-elipses
+{
+    display: flex;
+}

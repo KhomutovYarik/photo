@@ -3,18 +3,20 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Photo</title>
-        <link rel="stylesheet" href="css/main-page.css">
+        <title>Регистрация на photos</title>
+        <link rel="stylesheet" href="css/font-file.css">
+        <link rel="stylesheet" href="css/reg-auth-header.css">
+        <link rel="stylesheet" href="css/auth-reg.css">
     </head>
     <body>
         <header class="reg-auth-header">
-            <div class="header-logo">
+            <a href="index.php"><div class="header-logo">
                 <span class="logo-text">photos</span>
                 <div class="logo-elipses">
                     <div class="logo-circle first-logo-circle"></div>
                     <div class="logo-circle second-logo-circle"></div>
                 </div>
-            </div>
+            </div></a>
         </header>
         <form class="reg-form">
             <div class="logo-elipses">
@@ -29,13 +31,13 @@
             <button class="reg-auth-button">
                 Зарегистрироваться
             </button>
-            <span class="buttom-form-label">Зарегистрировавшись, вы соглашаетесь с
-                <a class="buttom-form-link">условиями предоставления услуг</a> и 
-                <a class="buttom-form-link">политикой конфиденциальности</a>
+            <span class="bottom-form-label">Зарегистрировавшись, вы соглашаетесь с <br>
+                <a class="bottom-form-link" href="#">условиями предоставления услуг</a> и <br>
+                <a class="bottom-form-link" href="#">политикой конфиденциальности</a>
             </span>
             <div class="gray-break"></div>
-            <span class="buttom-form-label">
-                Уже есть аккаунт? <a class="buttom-form-link">Войти</a>
+            <span class="bottom-form-label">
+                Уже есть аккаунт? <a class="bottom-form-link" href="auth.php">Войти</a>
             </span>
         </form>
     </body>
