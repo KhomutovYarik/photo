@@ -137,3 +137,68 @@ form .second-logo-circle
 {
     margin-top: calc(4.2px + (25 - 4.2) * ((100vw - 320px) / (1920 - 320)));
 }
+
+.shadow-screen
+{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+.modal-message
+{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(83.3px + (500 - 83.3) * ((100vw - 320px) / (1920 - 320)));
+    border-radius: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+    background-color: #FFF;
+}
+
+.message-header
+{
+    font-size: calc(4.3px + (26 - 4.3) * ((100vw - 320px) / (1920 - 320)));
+    display: flex;
+    align-items: center;
+    background-color: lightgray;
+    font-weight: 500;
+    margin: calc(1.8px + (11 - 1.8) * ((100vw - 320px) / (1920 - 320)));
+    border-radius: calc(0.8px + (5 - 0.8) * ((100vw - 320px) / (1920 - 320)));
+    box-sizing: border-box;
+    padding: calc(1.3px + (8 - 1.3) * ((100vw - 320px) / (1920 - 320)));
+    padding-left: calc(2px + (12 - 2) * ((100vw - 320px) / (1920 - 320)));
+    padding-right: calc(2px + (12 - 2) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.message-header img
+{
+    width: calc(3px + (18 - 3) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(3px + (18 - 3) * ((100vw - 320px) / (1920 - 320)));
+    margin-left: auto;
+}
+
+.message-text-block
+{
+    padding: calc(1.3px + (8 - 1.3) * ((100vw - 320px) / (1920 - 320)));
+    padding-left: calc(2px + (12 - 2) * ((100vw - 320px) / (1920 - 320)));
+    padding-right: calc(2px + (12 - 2) * ((100vw - 320px) / (1920 - 320)));
+    margin: calc(1.8px + (11 - 1.8) * ((100vw - 320px) / (1920 - 320)));
+    margin-top: calc(1.3px + (8 - 1.3) * ((100vw - 320px) / (1920 - 320)));;
+    border-radius: calc(0.8px + (5 - 0.8) * ((100vw - 320px) / (1920 - 320)));
+    border: 1px solid #666;
+    font-size: calc(3.8px + (23 - 3.8) * ((100vw - 320px) / (1920 - 320)));
+    text-align: justify;
+}
+
+input[type="button"]
+{
+    cursor: pointer;
+}
+

@@ -13,8 +13,7 @@ a
 
 .default-header
 {
-    background-color: #343333;
-    opacity: 0.8;
+    background-color: rgba(52, 51, 51, 0.8);
     width: calc(320px + (1920 - 320) * ((100vw - 320px) / (1920 - 320)));
     height: calc(13.3px + (80 - 13.3) * ((100vw - 320px) / (1920 - 320)));
     display: flex;
