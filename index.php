@@ -22,7 +22,7 @@
       }
     }
   }
-
+  
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -56,10 +56,13 @@
                     <a class="header-nav-element">О сайте</a>';
                 else
                     echo
-                    '<img class="upload-image" src="img/upload.png">
-                    <div class="spec-nav-element gallery-button">
+                    '<label for="header-upload" class="label-upload">
+                        <img class="upload-image" src="img/upload.png">
+                    </label>
+                    <input id="header-upload" name="files[]" type="file" multiple>
+                        <a href="profile.php?id='.$_SESSION['id'].'"><div class="spec-nav-element gallery-button">
                         <span class="header-nav-element">Моя галерея</span>
-                    </div>
+                    </div></a>
                     <span class="header-nav-element">О сайте</span>
                     <a class="header-nav-element" href="php/logout.php">Выйти</a>';
                 ?>
@@ -71,17 +74,26 @@
             if (!$_SESSION['auth'])
                 echo
                 '<span class="main-bottom-label">Регистрируйся прямо сейчас и начни <br> бесплатно загружать всё, что пожелаешь </span>
-                <a href="register.php"><button class="start-now-button">
-                    Начни сейчас
-                </button></a>';
+                <a href="register.php">
+                    <div class="start-now-button button">
+                        Начни сейчас
+                    </div>
+                </a>';
             else
                 echo
                 '<span class="main-bottom-label">Для загрузки изображений просто перетащите их <br>
                 сюда либо выберите соответствующий элемент ниже</span>
-                <button class="start-load-button">
-                    Начать загрузку
-                </button>';
+                <label for="header-upload">
+                    <div class="start-load-button button">
+                        Начать загрузку
+                    </div>
+                </label>';
             ?>
         </div>
+        <div id="loading-status" class="loading-status">
+            Загружается 5 файлов...
+        </div>
+        <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
+        <script type="text/javascript" src="js/header-actions.js"></script>
     </body>
 </html>

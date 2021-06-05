@@ -28,9 +28,10 @@ body
 {
     font-size: calc(8.3px + (50 - 8.3) * ((100vw - 320px) / (1920 - 320)));
     margin-top: calc(6.7px + (40 - 6.7) * ((100vw - 320px) / (1920 - 320)));
+    margin-bottom: calc(8.3px + (50 - 8.3) * ((100vw - 320px) / (1920 - 320)));
 }
 
-.middle-page-part button
+.middle-page-part .button
 {
     width: fit-content;
     font-weight: bold;
@@ -41,8 +42,13 @@ body
     padding-bottom: calc(3px + (18 - 3) * ((100vw - 320px) / (1920 - 320)));
     padding-left: calc(7.5px + (45 - 7.5) * ((100vw - 320px) / (1920 - 320)));
     padding-right: calc(7.5px + (45 - 7.5) * ((100vw - 320px) / (1920 - 320)));
-    margin-top: calc(8.3px + (50 - 8.3) * ((100vw - 320px) / (1920 - 320)));
     cursor: pointer;
+}
+
+.middle-page-part .start-now-button
+{
+    background-color: #FFF;
+    color: #000;
 }
 
 .middle-page-part .start-load-button
