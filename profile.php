@@ -142,9 +142,33 @@
         </div>
         <div class="main-profile-block">
             <?php 
-                $profile_blocks = '<div class="profile-block images-block'.check_block(1).'">
 
-                </div>
+                $query = "select id, extension, create_data, header, description, permission from all_images WHERE user_id=".$_SESSION['id'];
+
+                $result = mysqli_query($connection, $query);
+
+                $images_count = mysqli_num_rows($result);
+
+                for ($i = 0; $i < $images_count; $i++)
+                {
+                    $row = mysqli_fetch_row($result);
+                    for ($j = 0; $j < 6; $j++)
+                        $images_array[$i][$j] = $row[$j];
+                }
+
+                $images_block = "";
+
+                for ($i = 0; $i < $images_count; $i++)
+                {
+                    $link = 'uploaded/'.$_GET['id'].'/'.$images_array[$i][0].'.'.$images_array[$i][1];
+                    if (($i + 1) % 2 == 1)
+                        $images_block .= '<div class="images-row-block"> ';
+                    $images_block .= '<a href="'.$link.'" target="_blank"><img src="'.$link.'"></a> ';
+                    if (($i + 1) % 2 == 0 || $i == $images_count - 1)
+                        $images_block .= '</div>';
+                }
+
+                $profile_blocks = '<div class="profile-block images-block'.check_block(1).'">'.$images_block.'</div>
                 <div class="profile-block albums-block'.check_block(2).'">
                         
                 </div>';
@@ -159,19 +183,25 @@
 
                     $roll_block = '<div class="profile-block roll-block'.check_block(4).'">';
 
-                    $query = "select id, extension, create_data from all_images WHERE user_id=".$_SESSION['id'];
-
-                    $result = mysqli_query($connection, $query);
-
-                    $count_rows = mysqli_num_rows($result);
-
                     $last_data = "";
 
-                    for ($i = 0; $i < $count_rows; $i++)
+                    function addToRollBlock($row1, $row2, $row4, $row5, $row6)
                     {
-                        $row = mysqli_fetch_row($result);
+                        $string = '<div data-id="'.$row1.'" data-header="'.$row4.'" ';
+                        if (!empty($row5))
+                            $string .= 'data-description="'.$row5.'" '; 
+                        $string .= 'data-permission="'.$row6.'" class="roll-image not-selected-image">
+                        <img class="check-mark" src="img/check-mark.png">
+                        <img class="image-item" src="uploaded/'.$_SESSION['id'].'/'.$row1.'.'.$row2.'">
+                        </div>';
+                        
+                        return $string;
+                    }
 
-                        if ($row[2] != $last_data)
+                    for ($i = 0; $i < $images_count; $i++)
+                    {
+
+                        if ($images_array[$i][2] != $last_data)
                         {
                             if ($last_data != "")
                                 $roll_block .= '
@@ -179,22 +209,15 @@
                                 </div>';
                             $roll_block .= '<div class="roll-data-block">
                             <div class="roll-info-block">
-                                <span class="uploaded-data">'.$row[2].'</span>
+                                <span class="uploaded-data">'.$images_array[$i][2].'</span>
                                 <span class="select-all">Выбрать все</span>
-                            </div><div class="image-block">
-                            <div data-id="'.$row[0].'" class="roll-image not-selected-image">
-                                <img class="check-mark" src="img/check-mark.png">
-                                <img class="image-item" src="uploaded/'.$_SESSION['id'].'/'.$row[0].'.'.$row[1].'">
-                            </div>';
-                            $last_data = $row[2];
+                            </div><div class="image-block">';
+                            $roll_block .= addToRollBlock($images_array[$i][0], $images_array[$i][1], $images_array[$i][3], $images_array[$i][4], $images_array[$i][5]);
+                            $last_data = $images_array[$i][2];
                         }
                         else
                         {
-                            $roll_block .= '
-                            <div data-id="'.$row[0].'" class="roll-image not-selected-image">
-                                <img class="check-mark" src="img/check-mark.png">
-                                <img class="image-item" src="uploaded/'.$_SESSION['id'].'/'.$row[0].'.'.$row[1].'">
-                            </div>';
+                            $roll_block .= addToRollBlock($images_array[$i][0], $images_array[$i][1], $images_array[$i][3], $images_array[$i][4], $images_array[$i][5]);
                         }
                     }
                     $roll_block .= '</div>
@@ -232,6 +255,73 @@
         </div>
         <div id="loading-status" class="loading-status">
             Загружается 5 файлов...
+        </div>
+        <div id="modal-shadow" class="shadow-screen">
+            <div class="modal-message">
+                <div class="modal-window-type">
+                    <div class="modal-header-block">
+                        <span id="modal-main-header">Редактирование изображения</span>
+                        <img class="close-modal-window" src="img/cross.png">
+                    </div>
+                    <div class="gray-break"></div>
+                    <input class="modal-name-input" type="text" placeholder="Заголовок изображения">
+                    <textarea class="modal-desc-input" placeholder="Описание (необязательно)"></textarea>
+                    <div class="access-modal-block">
+                        <span class="access-modal-label">Доступность: </span>
+                        <select class="modal-access-combobox">
+                            <option value="1">Всем</option>
+                            <option value="2">По ссылке</option>
+                            <option value="3">Закрытый</option>
+                        </select>
+                    </div>
+                    <div class="modal-button-block">
+                        <input class="cancel-button" type="button" value="Отмена">
+                        <input class="accept-button" type="button" value="Принять">
+                    </div>
+                </div>
+                <div class="modal-window-type album-modal">
+                    <div class="modal-header-block">
+                        <span id="modal-main-header">Выберите альбом</span>
+                        <img class="close-modal-window" src="img/cross.png">
+                    </div>
+                    <div class="gray-break"></div>
+                    <div class="albums-modal-block">
+                        <?php
+
+                            $query = "select id, name, description, create_date, permission, image_id, extension_name, count from all_albums where user_id=".$_SESSION['id'];
+
+                            $result = mysqli_query($connection, $query);
+
+                            $count_rows = mysqli_num_rows($result);
+
+                            for ($i = 0; $i < $count_rows; $i++)
+                            {
+                                $row = mysqli_fetch_row($result);
+                                
+                                echo '<div data-id="'.$row[0].'" class="album-element">
+                                <img class="album-img" src="uploaded/'.$_SESSION['id'].'/'.$row[5].'.'.$row[6].'">
+                                <div class="album-element-info">
+                                    <span class="album-element-name">'.$row[1].'</span>
+                                    <span class="album-element-count">Изображений: '.$row[7].'</span>
+                                </div>
+                                <img class="check-mark-album" src="img/selected-album.png">
+                                </div>';
+                            }
+                        ?>
+                    </div>
+                    <div class="gray-break"></div>
+                    <div class="modal-button-block">
+                        <div class="create-new-album">
+                            <img src="img/create-album.png">
+                            <span class="create-new-album-label">
+                                Создать новый альбом
+                            </span>
+                        </div>
+                        <input class="cancel-button" type="button" value="Отмена">
+                        <input class="accept-button" type="button" value="Принять">
+                    </div>
+                </div>
+            </div>
         </div>
         <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
         <script type="text/javascript" src="js/header-actions.js"></script>
