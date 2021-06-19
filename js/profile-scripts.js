@@ -5,8 +5,10 @@ var openedBlock = document.getElementsByClassName('opened-block')
 var images = document.getElementsByClassName('roll-image')
 var selectAll = document.getElementsByClassName('select-all')
 var selectedImages = document.getElementsByClassName('selected-image')
+var imagesList = imagesUL.getElementsByTagName('li')
 
 var manageElements = document.getElementsByClassName('manage-images')[0]
+var imageCount = document.getElementsByClassName('images-count')[0]
 var selectedImagesCounter = document.getElementById('selected-images-count')
 var clearSelection = document.getElementById('clear-selected-images')
 
@@ -23,39 +25,12 @@ for (let i = 0; i < navElements.length; i++)
 
 for (let i = 0; i < images.length; i++)
 {
-    images[i].onclick = function()
-    {
-        if (images[i].classList[1][0] == 'n')
-        {
-            images[i].classList.remove('not-selected-image')
-            images[i].classList.add('selected-image')
-        }
-        else
-        {
-            images[i].classList.remove('selected-image')
-            images[i].classList.add('not-selected-image')
-        }
-        selectedImagesCounter.textContent = selectedImages.length
-        if (selectedImages.length == 0)
-            manageElements.style.display = 'none'
-        else
-            manageElements.style.display = 'block'
-    }
+    selectImage(images[i])
 }
 
-for (let i = 1; i <= selectAll.length; i++)
+for (let i = 0; i < selectAll.length; i++)
 {
-    selectAll[i-1].onclick = function()
-    {
-        var imagesInside = document.querySelectorAll('.roll-data-block:nth-child(' + i + ') .roll-image')
-        for (let j = 0; j < imagesInside.length; j++)
-        {
-            imagesInside[j].classList.remove('not-selected-image')
-            imagesInside[j].classList.add('selected-image')
-        }
-        selectedImagesCounter.textContent = selectedImages.length;
-        manageElements.style.display = 'block'
-    }
+    selectAllAction(selectAll[i], i + 1)
 }
 
 function clear()
@@ -91,6 +66,7 @@ var selectedAlbumElements = document.getElementsByClassName('selected-album-elem
 var checkMarksAlbums = document.getElementsByClassName('check-mark-album')
 var activeCheckMarkAlbums = document.getElementsByClassName('visible-check-mark')
 var createAlbumButton = document.getElementsByClassName('create-new-album')[0]
+var albumsListBlock = document.getElementsByClassName('albums-modal-block')[0]
 
 function closeModal()
 {
@@ -158,6 +134,7 @@ editButton.onclick = function()
     if (selectedImages.length == 1)
     {
         modalNameInput.value = selectedImages[0].dataset.header
+        modalPermissionInput.value = selectedImages[0].dataset.permission
         if (typeof selectedImages[0].dataset.description !== 'undefined')
             modalDescInput.value = selectedImages[0].dataset.description
         else
@@ -174,6 +151,17 @@ addToAlbumButton.onclick = function()
     modalWindowTypes[0].style.display = 'none'
     modalWindowTypes[1].style.display = 'flex'
     openModal()
+}
+
+function albumModalSelect(i)
+{
+    for (let j = activeCheckMarkAlbums.length - 1; j >= 0; j--)
+        {
+            activeCheckMarkAlbums[j].classList.remove('visible-check-mark')
+            selectedAlbumElements[j].classList.remove('selected-album-element')
+        }
+        checkMarksAlbums[i].classList.add('visible-check-mark')
+        albumElements[i].classList.add('selected-album-element')
 }
 
 for (let i = 0; i < acceptButtons.length; i++)
@@ -203,6 +191,12 @@ for (let i = 0; i < acceptButtons.length; i++)
                 dataType: 'html',
                 success: function(data)
                 {   
+                    for (let i = 0; i < selectedImages.length; i++)
+                    {
+                        selectedImages[i].dataset.header = modalNameInput.value
+                        selectedImages[i].dataset.permission = modalPermissionInput.value
+                        selectedImages[i].dataset.description = modalDescInput.value
+                    }
                     clear()
                     closeModal()
                 }
@@ -219,6 +213,7 @@ for (let i = 0; i < acceptButtons.length; i++)
                 dataType: 'html',
                 success: function(data)
                 {   
+
                     clear()
                     closeModal()
                 }
@@ -239,6 +234,37 @@ for (let i = 0; i < acceptButtons.length; i++)
                     dataType: 'html',
                     success: function(data)
                     {   
+                        var newAlbum = document.createElement('div')
+                        newAlbum.className = 'album-element'
+                        newAlbum.dataset.id = data
+
+                        var albumImage = document.createElement('img')
+                        albumImage.className = 'album-img'
+                        albumImage.src = selectedImages[0].getElementsByClassName('image-item')[0].src
+                        newAlbum.appendChild(albumImage)
+
+                        var infoBlock = document.createElement('div')
+                        infoBlock.className = 'album-element-info'
+                        var albumName = document.createElement('span')
+                        albumName.className = 'album-element-name'
+                        var albumImageCount = document.createElement('span')
+                        albumImageCount.className = 'album-element-count'
+                        albumName.textContent = modalNameInput.value
+                        albumImageCount.textContent = 'Изображений: ' + selectedImages.length
+                        infoBlock.appendChild(albumName)
+                        infoBlock.appendChild(albumImageCount)
+                        newAlbum.appendChild(infoBlock)
+
+                        var checkMark = document.createElement('img')
+                        checkMark.className = 'check-mark-album'
+                        checkMark.src = 'img/selected-album.png'
+
+                        newAlbum.appendChild(checkMark)
+                        albumsListBlock.appendChild(newAlbum)
+                        albumElements[albumElements.length - 1].onclick = function()
+                        {
+                            albumModalSelect(albumElements.length - 1)
+                        }
                         clear()
                         closeModal()
                     }
@@ -263,8 +289,18 @@ deleteButton.onclick = function()
         {   
             for (let i = selectedImages.length - 1; i >= 0; i--)
             {
-                selectedImages[i].remove();
+                for (let j = 0; j < imagesList.length; j++)
+                    if (imagesList[j].dataset.id == selectedImages[i].dataset.id)
+                    {
+                        imagesList[j].remove()
+                        break
+                    }
+                if (selectedImages[i].parentNode.parentNode.getElementsByClassName('roll-image').length == 1)
+                    selectedImages[i].parentNode.parentNode.remove()
+                else
+                    selectedImages[i].remove();
             }
+            imageCount.textContent = 'Изображений: ' + document.getElementsByClassName('roll-image').length
             clear()
             closeModal()
         }
@@ -275,13 +311,7 @@ for (let i = 0; i < albumElements.length; i++)
 {
     albumElements[i].onclick = function()
     {
-        for (let j = activeCheckMarkAlbums.length - 1; j >= 0; j--)
-        {
-            activeCheckMarkAlbums[j].classList.remove('visible-check-mark')
-            selectedAlbumElements[j].classList.remove('selected-album-element')
-        }
-        checkMarksAlbums[i].classList.add('visible-check-mark')
-        albumElements[i].classList.add('selected-album-element')
+        albumModalSelect(i)
     }
 }
 
@@ -292,5 +322,3 @@ createAlbumButton.onclick = function()
     modalWindowTypes[0].style.display = 'flex'
     chooseAlbumModal(0)
 }
-
-

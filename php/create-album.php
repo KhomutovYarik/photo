@@ -27,5 +27,7 @@
     $query = "update images set album_id=".$num_album." where id in ".$array_string;
 
     mysqli_query($connection, $query);
+
+    echo $num_album;
     
 ?>

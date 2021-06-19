@@ -19,6 +19,8 @@
         $query .= "header='".$_POST['header']."', ";
     if (isset($_POST['description']))
         $query .= "description='".$_POST['description']."', ";
+    else
+        $query .= "description=NULL, ";
     $query .= "permission=".$_POST['permission']." where id in ".$array_string;
 
     mysqli_query($connection, $query);

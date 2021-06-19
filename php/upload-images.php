@@ -4,6 +4,10 @@ require_once('connection.php');
 
 session_start();
 
+$curDate = date('Y-m-d h:i:s');
+
+$images_id_array = [];
+
 for ($i = 0; $i < $_POST['files_length']; $i++)
 {
     if (isset($_FILES['file_'.$i]))
@@ -14,8 +18,6 @@ for ($i = 0; $i < $_POST['files_length']; $i++)
         $filename = $path_parts['filename'];
         $filesize = $FILES["file"]["size"]/1024;
         $user_id = $_SESSION['id'];
-
-        $curDate = date('Y-m-d h:i:s');
 
         $query = "select id from extensions where name = '$fileext'";
 
@@ -33,6 +35,8 @@ for ($i = 0; $i < $_POST['files_length']; $i++)
 
             $new_image_id = $connection->insert_id;
 
+            array_push($images_id_array, $new_image_id);
+
             $location = $_SERVER['DOCUMENT_ROOT'].'/uploaded/'.$_SESSION['id'].'/';
 
             if (!file_exists($location))
@@ -46,5 +50,11 @@ for ($i = 0; $i < $_POST['files_length']; $i++)
         }
     }
 }
+
+$cur_date = date('d-m-Y');
+
+$return_array = [$images_id_array, $cur_date];
+
+echo json_encode($return_array);
 
 ?>

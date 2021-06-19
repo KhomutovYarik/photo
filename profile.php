@@ -44,18 +44,13 @@
 
   $user_id = $_GET['id'];
 
-  if (!empty($_SESSION['username']))
-        $username = $_SESSION['username'];
-  else
-  {
-        $query = "select username from users where id=$user_id";
-        $result = mysqli_query($connection, $query);
+  $query = "select username from users where id=$user_id";
+  $result = mysqli_query($connection, $query);
 
-        if (mysqli_num_rows($result) > 0)
-            $username = mysqli_fetch_row($result)[0];
-        else
-            header('Location: index.php');
-  }
+  if (mysqli_num_rows($result) > 0)
+         $username = mysqli_fetch_row($result)[0];
+  else
+         header('Location: index.php');
 
   $query = "select count(*) from images where user_id=$user_id";
 
@@ -143,8 +138,8 @@
         <div class="main-profile-block">
             <?php 
 
-                $query = "select id, extension, create_data, header, description, permission from all_images WHERE user_id=".$_SESSION['id'];
-
+                $query = "select id, extension, create_data, header, description, permission from all_images WHERE user_id=".$_GET['id'];
+                
                 $result = mysqli_query($connection, $query);
 
                 $images_count = mysqli_num_rows($result);
@@ -156,17 +151,15 @@
                         $images_array[$i][$j] = $row[$j];
                 }
 
-                $images_block = "";
+                $images_block = '<ul id="images-unordered-list">';
 
                 for ($i = 0; $i < $images_count; $i++)
                 {
                     $link = 'uploaded/'.$_GET['id'].'/'.$images_array[$i][0].'.'.$images_array[$i][1];
-                    if (($i + 1) % 2 == 1)
-                        $images_block .= '<div class="images-row-block"> ';
-                    $images_block .= '<a href="'.$link.'" target="_blank"><img src="'.$link.'"></a> ';
-                    if (($i + 1) % 2 == 0 || $i == $images_count - 1)
-                        $images_block .= '</div>';
+                    $images_block .= '<li data-id="'.$images_array[$i][0].'"><a href="'.$link.'" target="_blank"><img src="'.$link.'"></a></li> ';
                 }
+
+                $images_block .= '</ul>';
 
                 $profile_blocks = '<div class="profile-block images-block'.check_block(1).'">'.$images_block.'</div>
                 <div class="profile-block albums-block'.check_block(2).'">

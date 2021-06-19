@@ -120,34 +120,38 @@ body
     padding-left: calc(20.8px + (125 - 20.8) * ((100vw - 320px) / (1920 - 320)));
     padding-bottom: calc(10px + (60 - 10) * ((100vw - 320px) / (1920 - 320)));
     padding-right: calc(20.8px + (125 - 20.8) * ((100vw - 320px) / (1920 - 320)));
-    display: flex;
-    flex-direction: column;
+    height: 100%;
+    width: 100%;
     position: relative;
 }
 
-.images-row-block
+.images-block ul 
 {
-    width: 100%;
-    position: relative;
     display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.images-block li 
+{
+    height: 40vh;
+    flex-grow: 1;
+    list-style-type: none;
+    margin-right: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));;
     margin-bottom: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
 }
 
-.images-block img
+.images-block li:last-child 
 {
-    display: inline-block;
-    max-width: 100%;
+    flex-grow: 10;
 }
-
-.images-block a
+  
+.images-block  img 
 {
-    width: fit-content;
-    height: fit-content;
-}
-
-.images-row-block a:last-child
-{
-    margin-left: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+    max-height: 100%;
+    min-width: 100%;
+    object-fit: cover;
+    vertical-align: bottom;
 }
 
 .images-block img:hover
