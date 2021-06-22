@@ -69,7 +69,7 @@
             </a>
             <div class="search-block">
                 <img class="search-image" src="img/zoom.png">
-                <input type="text" class="search-field" placeholder="Поиск по пользователям и заголовкам">
+                <?php echo '<input type="text" class="search-field" value="'.$_GET['search'].'" placeholder="Поиск по пользователям и заголовкам">'; ?>
             </div>
             <div class="header-nav">
                 <?php
@@ -108,7 +108,20 @@
                     $is_album_link = "&album=".$_GET['album'];
                 }
 
-                $query = "(select id, extension, create_data, header, description, permission, album_id, username from all_images WHERE id<".$_GET['id']." and user_id = ".$user_id.$is_album_query." order by id desc limit 1) union (select id, extension, create_data, header, description, permission, album_id, username from all_images WHERE id=".$_GET['id']." and user_id = ".$user_id.$is_album_query.") union (select id, extension, create_data, header, description, permission, album_id, username from all_images where id>".$_GET['id']." and user_id = ".$user_id.$is_album_query." order by id limit 1)";
+                $check_permission = "";
+
+                if ($_SESSION['id'] != $user_id)
+                    $check_permission = " and permission = 1";
+
+                $query = "";
+
+                if (!isset($_GET['search']))
+                    $query .= "(select id, extension, create_data, header, description, permission, album_id, username from all_images WHERE id<".$_GET['id']." and user_id = ".$user_id.$is_album_query.$check_permission." order by id desc limit 1) union ";
+
+                $query .= "(select id, extension, create_data, header, description, permission, album_id, username from all_images WHERE id=".$_GET['id']." and user_id = ".$user_id.$is_album_query.")";
+
+                if (!isset($_GET['search']))
+                    $query .=  "union (select id, extension, create_data, header, description, permission, album_id, username from all_images where id>".$_GET['id']." and user_id = ".$user_id.$is_album_query.$check_permission." order by id limit 1)";
 
                 $result = mysqli_query($connection, $query);
 
@@ -145,22 +158,27 @@
             ?>
             <div class="back-to-gallery">
                     <?php
-                        if (isset($_GET['album']))
-                        {
-                            $link = 'album.php?id='.$_GET['album'];
-                            $return_text = 'Вернуться к альбому';
-                        }
-                        else
-                        {
-                            $link = 'profile.php?id='.$user_id;
-                            $return_text = 'Вернуться в галерею';
-                        }
+                    if (isset($_GET['search']))
+                    {
+                        $link = 'search.php?value='.$_GET['search'];
+                        $return_text = 'Вернуться к поиску';
+                    }
+                    else if (isset($_GET['album']))
+                    {
+                        $link = 'album.php?id='.$_GET['album'];
+                        $return_text = 'Вернуться к альбому';
+                    }
+                    else
+                    {
+                        $link = 'profile.php?id='.$user_id;
+                        $return_text = 'Вернуться в галерею';
+                    }
 
-                        echo 
-                        '<a href="'.$link.'">
-                            <img src="img/back-arrow.png">
-                            <span>'.$return_text.'</span>
-                        </a>';
+                    echo 
+                    '<a href="'.$link.'">
+                        <img src="img/back-arrow.png">
+                        <span>'.$return_text.'</span>
+                    </a>';
                     ?>
             </div>
         </div>
@@ -168,7 +186,7 @@
             <div class="image-lower-left">
                 <div class="image-info" <?php 
                     if (empty($images_array[$main_image_index][4]))
-                        echo 'style="margin-bottom:0;"';
+                        echo 'style="margin-bottom:calc(0.8px + (5 - 0.8) * ((100vw - 320px) / (1920 - 320)));"';
                 ?>>
                     <img class="image-owner-avatar" src="img/the-cat.png">
                     <div class="right-info-block">

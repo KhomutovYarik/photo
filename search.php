@@ -104,7 +104,7 @@
                     $row = mysqli_fetch_row($result);
                     
                     $link = 'uploaded/'.$row[2].'/'.$row[0].'.'.$row[1];
-                    $images_block .= '<li data-id="'.$row[0].'"><a href="image.php?id='.$row[0].'"><img src="'.$link.'"></a></li> ';
+                    $images_block .= '<li data-id="'.$row[0].'"><a href="image.php?id='.$row[0].'&search='.$_GET['value'].'"><img src="'.$link.'"></a></li> ';
                 }
 
                 $images_block .= '</ul>';
