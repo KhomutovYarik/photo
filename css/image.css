@@ -1,0 +1,314 @@
+html, body
+{
+    width: 100%;
+    height: 100%;
+    background-color: #F3F5F6;
+}
+
+body
+{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+body>*
+{
+    flex-shrink: 0;
+}
+
+textarea
+{
+    resize: none;
+}
+
+.default-header
+{
+    background-color: rgba(0, 0, 0, 1.0);
+}
+
+.image-view-block
+{
+    height: calc(106px + (636 - 106) * ((100vw - 320px) / (1920 - 320)));
+    background-color: #434343;  
+    position: relative;
+}
+
+.arrow
+{
+    height: calc(9.2px + (55 - 9.2) * ((100vw - 320px) / (1920 - 320)));
+    width: calc(5px + (30 - 5) * ((100vw - 320px) / (1920 - 320)));
+    cursor: pointer;
+}
+
+.arrow img
+{
+    height: inherit;
+    width: inherit;
+}
+
+.page-image
+{
+    position: absolute;
+    max-height: 95%;
+    max-width: 85%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.back-to-gallery
+{
+    position: absolute;
+    top: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+    left: calc(5px + (30 - 5) * ((100vw - 320px) / (1920 - 320)));
+    text-shadow: none;
+    font-weight: normal;
+    font-size: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.back-to-gallery a
+{
+    display: flex;
+    align-items: center;
+}
+
+.back-to-gallery img
+{
+    margin-right: calc(1.6px + (10 - 1.6) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+    width: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.prev-arrow
+{
+    float:  left;
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+    left: calc(8.3px + (50 - 8.3) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.next-arrow
+{
+    float: right;
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+    right: calc(8.3px + (50 - 8.3) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.image-nav
+{
+    position: absolute;
+    right: calc(6.7px + (40 - 6.7) * ((100vw - 320px) / (1920 - 320)));
+    bottom: calc(4.2px + (25 - 4.2) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.image-nav *
+{
+    height: calc(5.8px + (35 - 5.8) * ((100vw - 320px) / (1920 - 320)));
+    cursor: pointer;
+}
+
+.image-nav>*
+{
+    cursor: pointer;
+}
+
+.image-nav>*:not(:last-child)
+{
+    margin-right: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.image-lower-block
+{
+    flex-grow: 1;
+}
+
+.image-lower-left
+{
+    float: left;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: calc(6px + (36 - 6) * ((100vw - 320px) / (1920 - 320)));
+    left: calc(41.7px + (250 - 41.7) * ((100vw - 320px) / (1920 - 320)));
+    width: calc(124px + (744 - 124) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.image-info
+{
+    display: flex;
+    margin-bottom: calc(3.4px + (20 - 3.4) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.image-owner-avatar
+{
+    height: calc(20px + (120 - 20) * ((100vw - 320px) / (1920 - 320)));
+    width: calc(20px + (120 - 20) * ((100vw - 320px) / (1920 - 320)));
+    border-radius: 50%;
+}
+
+.right-info-block
+{
+    display: flex;
+    flex-direction: column;
+    margin-left: calc(3.4px + (20 - 3.4) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.image-username
+{
+    font-weight: normal;
+    font-size: calc(3.7px + (22 - 3.7) * ((100vw - 320px) / (1920 - 320)));
+    margin-top: calc(2.5px + (15 - 2.5) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.image-header
+{
+    font-weight: 500;
+    font-size: calc(4.3px + (26 - 4.3) * ((100vw - 320px) / (1920 - 320)));
+    margin-top: calc(2.5px + (15 - 2.5) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.image-description
+{
+    font-weight: 300;
+    font-size: calc(4px + (24 - 4) * ((100vw - 320px) / (1920 - 320)));
+    margin-top: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.gray-break
+{
+    height: 1px;
+    width: calc(101.7px + (610 - 101.7) * ((100vw - 320px) / (1920 - 320)));
+    background-color: #C4C4C4;
+    align-self: flex-end;
+}
+
+.comment-block
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.all-comments
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.comment
+{
+    box-sizing: border-box;
+    display: flex;
+    padding-left: calc(10.8px + (65 - 10.8) * ((100vw - 320px) / (1920 - 320)));
+    margin-top: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.comment-avatar
+{
+    width: calc(10px + (60 - 10) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(10px + (60 - 10) * ((100vw - 320px) / (1920 - 320)));
+    border-radius: 50%;
+    align-self: flex-start;
+    margin-top: calc(0.8px + (5 - 0.8) * ((100vw - 320px) / (1920 - 320)));
+    margin-left: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+    margin-bottom: calc(0.8px + (5 - 0.8) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.comment-name-and-text
+{
+    margin-top: calc(1.3px + (8 - 1.3) * ((100vw - 320px) / (1920 - 320)));
+    margin-left: calc(3.4px + (20 - 3.4) * ((100vw - 320px) / (1920 - 320)));
+    margin-right: calc(0.8px + (5 - 0.8) * ((100vw - 320px) / (1920 - 320)));
+    margin-bottom: calc(1.3px + (8 - 1.3) * ((100vw - 320px) / (1920 - 320)));
+    flex-grow: 1;
+}
+
+.comment-name
+{
+    color: #199DFC;
+    font-weight: 500;
+    font-size: calc(3px + (18 - 3) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.comment-text
+{
+    margin-top: calc(0.8px + (5 - 0.8) * ((100vw - 320px) / (1920 - 320)));
+    font-weight: 300;
+    font-size: calc(4px + (24 - 4) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.comment-date
+{
+    margin-top: calc(1.3px + (8 - 1.3) * ((100vw - 320px) / (1920 - 320)));
+    font-size: calc(3px + (18 - 3) * ((100vw - 320px) / (1920 - 320)));
+    font-weight: 500;
+    color: #808080;
+    flex-shrink: 0;
+}
+
+.new-comment-block
+{
+    align-self: flex-end;
+    display: flex;
+    position: relative;
+    margin-top: calc(4.2px + (25 - 4.2) * ((100vw - 320px) / (1920 - 320)));
+    margin-bottom: calc(10px + (60 - 10) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.new-comment-avatar
+{
+    margin: 0;
+    margin-right: calc(3px + (18 - 3) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.comment-text-input
+{
+    height: calc(20px + (120 - 20) * ((100vw - 320px) / (1920 - 320)));
+    width: calc(98.3px + (590 - 98.3) * ((100vw - 320px) / (1920 - 320)));
+    border-radius: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+    font-weight: 300;
+    font-size: calc(4px + (24 - 4) * ((100vw - 320px) / (1920 - 320)));
+    padding-left: calc(2.5px + (15 - 2.5) * ((100vw - 320px) / (1920 - 320)));
+    padding-right: calc(2.5px + (15 - 2.5) * ((100vw - 320px) / (1920 - 320)));
+    padding-top: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+    padding-bottom: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+    font-family: "Roboto";
+    outline: none;
+    box-sizing: border-box;
+    border: 1px solid #C4C4C4;
+}
+
+.send-comment-button
+{
+    height: calc(6px + (36 - 6) * ((100vw - 320px) / (1920 - 320)));
+    width: calc(7px + (42 - 7) * ((100vw - 320px) / (1920 - 320)));
+    position: absolute;
+    bottom: calc(1.2px + (7 - 1.2) * ((100vw - 320px) / (1920 - 320)));
+    left: calc(1px + (6 - 1) * ((100vw - 320px) / (1920 - 320)));
+    cursor: pointer;
+}
+
+.send-comment-button:hover
+{
+    content: url('../img/send.png');
+}
+
+.image-lower-right
+{
+    float: right;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    font-weight: 500;
+    font-size: calc(3.4px + (20 - 3.4) * ((100vw - 320px) / (1920 - 320)));
+    top: calc(9.2px + (55 - 9.2) * ((100vw - 320px) / (1920 - 320)));
+    right: calc(41.7px + (250 - 41.7) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.image-album
+{
+    margin-top: calc(2px + (12 - 2) * ((100vw - 320px) / (1920 - 320)));
+}

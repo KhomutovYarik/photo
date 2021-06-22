@@ -10,6 +10,11 @@ body
     flex-direction: column;
 }
 
+body>*
+{
+    flex-shrink: 0;
+}
+
 .default-header
 {
     background-color: rgba(52, 51, 51, 1.0);
@@ -137,7 +142,7 @@ body
     height: 40vh;
     flex-grow: 1;
     list-style-type: none;
-    margin-right: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));;
+    margin-right: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
     margin-bottom: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
 }
 
@@ -149,7 +154,9 @@ body
 .images-block  img 
 {
     max-height: 100%;
+    min-height: 100%;
     min-width: 100%;
+    max-width: 100%;
     object-fit: cover;
     vertical-align: bottom;
 }
@@ -158,6 +165,71 @@ body
 {
     outline: calc(0.7px + (4 - 0.7) * ((100vw - 320px) / (1920 - 320))) solid #199DFC;
 }
+
+.main-profile-block .albums-block
+{
+    padding-top: calc(6.7px + (40 - 6.7) * ((100vw - 320px) / (1920 - 320)));
+    padding-left: calc(20.8px + (125 - 20.8) * ((100vw - 320px) / (1920 - 320)));
+    padding-bottom: calc(10px + (60 - 10) * ((100vw - 320px) / (1920 - 320)));
+    padding-right: calc(11.7px + (70 - 11.7) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.albums-block .album-items
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.album-item
+{
+    position: relative;
+    flex-basis: content;
+    width: calc(50px + (300 - 50) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(50px + (300 - 50) * ((100vw - 320px) / (1920 - 320)));
+    color: #FFF;
+    border-radius: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+    cursor: pointer;
+    margin-right: calc(6.7px + (40 - 6.7) * ((100vw - 320px) / (1920 - 320)));
+    margin-bottom: calc(6.7px + (40 - 6.7) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.album-item:hover
+{
+    box-shadow: 0 0 0 calc(0.8px + (5 - 0.8) * ((100vw - 320px) / (1920 - 320))) #199DFC;
+}
+
+.album-item img
+{
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+}
+
+.album-item-info
+{
+    position: absolute;
+    bottom: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+    left: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));;
+    display: flex;
+    flex-direction: column;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+}
+
+.album-name
+{
+    font-size: calc(4.3px + (26 - 4.3) * ((100vw - 320px) / (1920 - 320)));
+
+}
+
+.album-images-count
+{
+    font-size: calc(2.3px + (14 - 2.3) * ((100vw - 320px) / (1920 - 320)));;
+}
+
+
+
+
+
 
 
 
@@ -603,4 +675,5 @@ textarea
 {
     display: block;
     height: 100%;
+    box-sizing: border-box;
 }

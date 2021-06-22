@@ -1,0 +1,133 @@
+html, body
+{
+    width: 100%;
+    height: 100%;
+}
+
+body
+{
+    display: flex;
+    flex-direction: column;
+}
+
+body>*
+{
+    flex-shrink: 0;
+}
+
+.default-header
+{
+    background-color: rgba(0, 0, 0, 1.0);
+}
+
+.album-info
+{
+    position: relative;
+    height: calc(58.3px + (350 - 58.3) * ((100vw - 320px) / (1920 - 320)));
+    display: flex;
+    align-items: center;
+    color: #FFF;
+    font-weight: 500;
+    flex-direction: column;
+    text-align: center;
+    background-image: url('../img/sunset.png');
+    background-size: cover;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+}
+
+.back-to-gallery
+{
+    position: absolute;
+    top: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+    left: calc(5px + (30 - 5) * ((100vw - 320px) / (1920 - 320)));
+    text-shadow: none;
+    font-weight: normal;
+    font-size: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.back-to-gallery a
+{
+    display: flex;
+    align-items: center;
+}
+
+.back-to-gallery img
+{
+    margin-right: calc(1.6px + (10 - 1.6) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+    width: calc(3.3px + (20 - 3.3) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.album-name
+{
+    font-size: calc(8px + (48 - 6) * ((100vw - 320px) / (1920 - 320)));
+    margin-top: calc(11.7px + (70 - 11.7) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.album-description
+{
+    font-size: calc(6px + (36 - 6) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(20.8px + (125 - 20.8) * ((100vw - 320px) / (1920 - 320)));
+    margin-top: calc(2.5px + (15 - 2.5) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.album-name, .album-description
+{
+    width: 70%;
+}
+
+.created-date, .images-count
+{
+    font-size: calc(4.3px + (26 - 4.3) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.created-date
+{
+    margin-bottom: calc(0.8px + (5 - 0.8) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.images-block
+{
+    box-sizing: border-box;
+    padding-top: calc(6.7px + (40 - 6.7) * ((100vw - 320px) / (1920 - 320)));
+    padding-left: calc(20.8px + (125 - 20.8) * ((100vw - 320px) / (1920 - 320)));
+    padding-bottom: calc(10px + (60 - 10) * ((100vw - 320px) / (1920 - 320)));
+    padding-right: calc(20.8px + (125 - 20.8) * ((100vw - 320px) / (1920 - 320)));
+    flex-grow: 1;
+    background-color: #F3F5F6;
+    position: relative;
+}
+
+.images-block ul 
+{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.images-block li 
+{
+    height: 40vh;
+    flex-grow: 1;
+    list-style-type: none;
+    margin-right: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+    margin-bottom: calc(1.7px + (10 - 1.7) * ((100vw - 320px) / (1920 - 320)));
+}
+
+.images-block li:last-child 
+{
+    flex-grow: 10;
+}
+  
+.images-block  img 
+{
+    max-height: 100%;
+    min-width: 100%;
+    object-fit: cover;
+    vertical-align: bottom;
+}
+
+.images-block img:hover
+{
+    outline: calc(0.7px + (4 - 0.7) * ((100vw - 320px) / (1920 - 320))) solid #199DFC;
+}

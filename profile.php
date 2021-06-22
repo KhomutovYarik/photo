@@ -3,7 +3,10 @@
   require_once("php/connection.php");
 
   if (empty($_GET['id']))
+  {
     header('Location: index.php');
+    exit();
+  }
 
   session_start();
 
@@ -50,9 +53,15 @@
   if (mysqli_num_rows($result) > 0)
          $username = mysqli_fetch_row($result)[0];
   else
+  {
          header('Location: index.php');
+         exit();
+  }
 
   $query = "select count(*) from images where user_id=$user_id";
+
+  if ($_SESSION['id'] != $_GET['id'])
+    $query .= ' and permission = 1';  
 
   $result = mysqli_query($connection, $query);
 
@@ -138,7 +147,10 @@
         <div class="main-profile-block">
             <?php 
 
-                $query = "select id, extension, create_data, header, description, permission from all_images WHERE user_id=".$_GET['id'];
+                $query = "select id, extension, create_data, header, description, permission, album_id from all_images WHERE user_id=".$_GET['id'];
+
+                if ($_SESSION['id'] != $_GET['id'])
+                    $query .= ' and permission = 1';
                 
                 $result = mysqli_query($connection, $query);
 
@@ -147,7 +159,7 @@
                 for ($i = 0; $i < $images_count; $i++)
                 {
                     $row = mysqli_fetch_row($result);
-                    for ($j = 0; $j < 6; $j++)
+                    for ($j = 0; $j < 7; $j++)
                         $images_array[$i][$j] = $row[$j];
                 }
 
@@ -156,14 +168,47 @@
                 for ($i = 0; $i < $images_count; $i++)
                 {
                     $link = 'uploaded/'.$_GET['id'].'/'.$images_array[$i][0].'.'.$images_array[$i][1];
-                    $images_block .= '<li data-id="'.$images_array[$i][0].'"><a href="'.$link.'" target="_blank"><img src="'.$link.'"></a></li> ';
+                    $images_block .= '<li data-id="'.$images_array[$i][0].'"><a href="image.php?id='.$images_array[$i][0].'"><img src="'.$link.'"></a></li> ';
                 }
 
                 $images_block .= '</ul>';
 
+                $query = "select id, name, description, create_date, permission, image_id, extension_name, count from all_albums where user_id=".$_GET['id'];
+
+                if ($_SESSION['id'] != $_GET['id'])
+                    $query .= ' and permission = 1';  
+
+                $result = mysqli_query($connection, $query);
+
+                $albums_count = mysqli_num_rows($result);
+
+                $albums_array = [];
+
+                for ($i = 0; $i < $albums_count; $i++)
+                {
+                    $row = mysqli_fetch_row($result);
+
+                    for ($j = 0; $j < 8; $j++)
+                        $albums_array[$i][$j] = $row[$j];
+                }
+
                 $profile_blocks = '<div class="profile-block images-block'.check_block(1).'">'.$images_block.'</div>
                 <div class="profile-block albums-block'.check_block(2).'">
-                        
+                    <div class="album-items">';
+                
+                for ($i = 0; $i < $albums_count; $i++)
+                {
+                    $profile_blocks .= '<a href="album.php?id='.$albums_array[$i][0].'" class="album-item" data-id="'.$albums_array[$i][0].'" data-image="'.$albums_array[$i][5].'" data-count="'.$albums_array[$i][7].'" data-name="'.$albums_array[$i][1].'" '; 
+                    if (!empty($albums_array[$i][2]))
+                        $profile_blocks .= 'data-description="'.$albums_array[$i][2].'" ';
+                    $profile_blocks .= 'data-permission="'.$albums_array[$i][4].'"><img src="uploaded/'.$_SESSION['id'].'/'.$albums_array[$i][5].'.'.$albums_array[$i][6].'">
+                    <div class="album-item-info">
+                        <span class="album-name">'.$albums_array[$i][1].'</span>
+                        <span class="album-images-count">'.$albums_array[$i][7].' фото</span>
+                    </div></a>';
+                }
+
+                $profile_blocks .= '</div>    
                 </div>';
 
                 echo $profile_blocks;
@@ -178,11 +223,13 @@
 
                     $last_data = "";
 
-                    function addToRollBlock($row1, $row2, $row4, $row5, $row6)
+                    function addToRollBlock($row1, $row2, $row4, $row5, $row6, $row7)
                     {
                         $string = '<div data-id="'.$row1.'" data-header="'.$row4.'" ';
                         if (!empty($row5))
                             $string .= 'data-description="'.$row5.'" '; 
+                        if (!empty($row7))
+                            $string .= 'data-album="'.$row7.'" '; 
                         $string .= 'data-permission="'.$row6.'" class="roll-image not-selected-image">
                         <img class="check-mark" src="img/check-mark.png">
                         <img class="image-item" src="uploaded/'.$_SESSION['id'].'/'.$row1.'.'.$row2.'">
@@ -205,12 +252,12 @@
                                 <span class="uploaded-data">'.$images_array[$i][2].'</span>
                                 <span class="select-all">Выбрать все</span>
                             </div><div class="image-block">';
-                            $roll_block .= addToRollBlock($images_array[$i][0], $images_array[$i][1], $images_array[$i][3], $images_array[$i][4], $images_array[$i][5]);
+                            $roll_block .= addToRollBlock($images_array[$i][0], $images_array[$i][1], $images_array[$i][3], $images_array[$i][4], $images_array[$i][5], $images_array[$i][6]);
                             $last_data = $images_array[$i][2];
                         }
                         else
                         {
-                            $roll_block .= addToRollBlock($images_array[$i][0], $images_array[$i][1], $images_array[$i][3], $images_array[$i][4], $images_array[$i][5]);
+                            $roll_block .= addToRollBlock($images_array[$i][0], $images_array[$i][1], $images_array[$i][3], $images_array[$i][4], $images_array[$i][5], $images_array[$i][6]);
                         }
                     }
                     $roll_block .= '</div>
@@ -247,7 +294,7 @@
             </div>
         </div>
         <div id="loading-status" class="loading-status">
-            Загружается 5 файлов...
+            
         </div>
         <div id="modal-shadow" class="shadow-screen">
             <div class="modal-message">
@@ -281,21 +328,13 @@
                     <div class="albums-modal-block">
                         <?php
 
-                            $query = "select id, name, description, create_date, permission, image_id, extension_name, count from all_albums where user_id=".$_SESSION['id'];
-
-                            $result = mysqli_query($connection, $query);
-
-                            $count_rows = mysqli_num_rows($result);
-
-                            for ($i = 0; $i < $count_rows; $i++)
+                            for ($i = 0; $i < $albums_count; $i++)
                             {
-                                $row = mysqli_fetch_row($result);
-                                
-                                echo '<div data-id="'.$row[0].'" class="album-element">
-                                <img class="album-img" src="uploaded/'.$_SESSION['id'].'/'.$row[5].'.'.$row[6].'">
+                                echo '<div data-id="'.$albums_array[$i][0].'" class="album-element">
+                                <img class="album-img" src="uploaded/'.$_SESSION['id'].'/'.$albums_array[$i][5].'.'.$albums_array[$i][6].'">
                                 <div class="album-element-info">
-                                    <span class="album-element-name">'.$row[1].'</span>
-                                    <span class="album-element-count">Изображений: '.$row[7].'</span>
+                                    <span class="album-element-name">'.$albums_array[$i][1].'</span>
+                                    <span class="album-element-count">Изображений: '.$albums_array[$i][7].'</span>
                                 </div>
                                 <img class="check-mark-album" src="img/selected-album.png">
                                 </div>';

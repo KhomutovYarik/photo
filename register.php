@@ -21,11 +21,15 @@
         $_SESSION['username'] = $result['username'];
 
         header('Location: index.php');
+        exit();
       }
     }
   }
   else
+  {
     header('Location: index.php');
+    exit();
+  }
 
 ?>
 <!DOCTYPE html>

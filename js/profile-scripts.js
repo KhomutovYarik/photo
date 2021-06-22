@@ -6,6 +6,8 @@ var images = document.getElementsByClassName('roll-image')
 var selectAll = document.getElementsByClassName('select-all')
 var selectedImages = document.getElementsByClassName('selected-image')
 var imagesList = imagesUL.getElementsByTagName('li')
+var albumsBlock = document.getElementsByClassName('album-items')[0]
+var albumItems = albumsBlock.getElementsByClassName('album-item')
 
 var manageElements = document.getElementsByClassName('manage-images')[0]
 var imageCount = document.getElementsByClassName('images-count')[0]
@@ -71,6 +73,11 @@ var albumsListBlock = document.getElementsByClassName('albums-modal-block')[0]
 function closeModal()
 {
     shadowObject.style.display = 'none'
+    if (selectedAlbumElements.length != 0)
+    {
+        selectedAlbumElements[0].getElementsByClassName('check-mark-album')[0].classList.remove('visible-check-mark')
+        selectedAlbumElements[0].classList.remove('selected-album-element')
+    }
 }
 
 function openModal()
@@ -164,6 +171,87 @@ function albumModalSelect(i)
         albumElements[i].classList.add('selected-album-element')
 }
 
+function checkImagesInAlbums(type)
+{
+    for (let i = selectedImages.length - 1; i >= 0; i--)
+    {
+        for (let j = albumItems.length - 1; j >= 0; j--)
+        {
+            if (albumItems[j].dataset.id == selectedImages[i].dataset.album && (type != 1 || selectedImages[i].dataset.album != selectedAlbumElements[0].dataset.id))
+            {
+                albumItems[j].dataset.count -= 1
+                albumElements[j].getElementsByClassName('album-element-count')[0].textContent = 'Изображений: ' + albumItems[j].dataset.count
+                albumItems[j].getElementsByClassName('album-images-count')[0].textContent = albumItems[j].dataset.count + ' фото'
+                if (albumItems[j].dataset.count == 0)
+                {
+                    albumItems[j].remove()
+                    albumElements[j].remove()
+                }
+                else if (albumItems[j].dataset.image == selectedImages[i].dataset.id)
+                {
+                    let k = images.length - 1
+
+                    while (k >= 0)
+                    {
+                        if (images[k] === selectedImages[i])
+                            break
+                        k--
+                    }
+
+                    for (k--; k >= 0; k--)
+                    {
+                        if (albumItems[j].dataset.id == images[k].dataset.album)
+                        {
+                            albumItems[j].dataset.image = images[k].dataset.id
+                            albumItems[j].getElementsByTagName('img')[0].src = images[k].getElementsByClassName('image-item')[0].src
+                            albumElements[j].getElementsByTagName('img')[0].src = images[k].getElementsByClassName('image-item')[0].src
+                            break
+                        }
+                    }
+                }
+            }
+        }
+
+        if (type == 1)
+        {
+            for (let j = albumItems.length - 1; j >= 0; j--)
+            {
+                if (albumItems[j].dataset.id == selectedAlbumElements[0].dataset.id && selectedImages[i].dataset.album != albumItems[j].dataset.id)
+                {
+                    selectedImages[i].dataset.album = albumItems[j].dataset.id
+                    albumItems[j].dataset.count =  Number(albumItems[j].dataset.count) + 1
+                    albumElements[j].getElementsByClassName('album-element-count')[0].textContent = 'Изображений: ' + albumItems[j].dataset.count
+                    albumItems[j].getElementsByClassName('album-images-count')[0].textContent = albumItems[j].dataset.count + ' фото'
+
+                    if (albumItems[j].dataset.image > selectedImages[i].dataset.id)
+                    {
+                        albumItems[j].dataset.image = selectedImages[i].dataset.id
+                        albumItems[j].getElementsByTagName('img')[0].src = selectedImages[i].getElementsByClassName('image-item')[0].src
+                        albumElements[j].getElementsByTagName('img')[0].src = selectedImages[i].getElementsByClassName('image-item')[0].src
+                    }
+                }
+            }
+        }
+        else if (type == 3)
+        {
+            for (let j = 0; j < imagesList.length; j++)
+            {
+                if (imagesList[j].dataset.id == selectedImages[i].dataset.id)
+                {
+                    imagesList[j].remove()
+                    break
+                }
+            }
+
+            if (selectedImages[i].parentNode.parentNode.getElementsByClassName('roll-image').length == 1)
+                selectedImages[i].parentNode.parentNode.remove()
+            else
+                selectedImages[i].remove();
+        }
+    }
+    imageCount.textContent = 'Изображений: ' + document.getElementsByClassName('roll-image').length
+}
+
 for (let i = 0; i < acceptButtons.length; i++)
     acceptButtons[i].onclick = function()
     {
@@ -213,7 +301,9 @@ for (let i = 0; i < acceptButtons.length; i++)
                 dataType: 'html',
                 success: function(data)
                 {   
-
+                    checkImagesInAlbums(1)
+                    selectedAlbumElements[0].getElementsByClassName('check-mark-album')[0].classList.remove('visible-check-mark')
+                    selectedAlbumElements[0].classList.remove('selected-album-element')
                     clear()
                     closeModal()
                 }
@@ -234,13 +324,15 @@ for (let i = 0; i < acceptButtons.length; i++)
                     dataType: 'html',
                     success: function(data)
                     {   
+                        checkImagesInAlbums(2)
+
                         var newAlbum = document.createElement('div')
                         newAlbum.className = 'album-element'
                         newAlbum.dataset.id = data
 
                         var albumImage = document.createElement('img')
                         albumImage.className = 'album-img'
-                        albumImage.src = selectedImages[0].getElementsByClassName('image-item')[0].src
+                        albumImage.src = selectedImages[selectedImages.length - 1].getElementsByClassName('image-item')[0].src
                         newAlbum.appendChild(albumImage)
 
                         var infoBlock = document.createElement('div')
@@ -265,6 +357,41 @@ for (let i = 0; i < acceptButtons.length; i++)
                         {
                             albumModalSelect(albumElements.length - 1)
                         }
+
+                        var newAlbumElement = document.createElement('a')
+                        newAlbumElement.className = 'album-item'
+                        newAlbumElement.href = 'album.php?id=' + data
+                        newAlbumElement.dataset.id = data
+                        newAlbumElement.dataset.name = modalNameInput.value
+                        if (modalDescInput.value != "")
+                            newAlbumElement.dataset.description = modalDescInput.value
+                        newAlbumElement.dataset.permission = modalPermissionInput.value
+                        newAlbumElement.dataset.count = selectedImages.length
+                        newAlbumElement.dataset.image = selectedImages[selectedImages.length - 1].dataset.id
+
+                        var imageAlbumElement = document.createElement('img')
+                        imageAlbumElement.src = selectedImages[selectedImages.length - 1].getElementsByClassName('image-item')[0].src
+
+                        var albumItemInfo = document.createElement('div')
+                        albumItemInfo.className = 'album-item-info'
+
+                        var albumElementName = document.createElement('span')
+                        albumElementName.className = 'album-name'
+                        albumElementName.textContent = modalNameInput.value
+
+                        var albumElementCount = document.createElement('span')
+                        albumElementCount.className = 'album-images-count'
+                        albumElementCount.textContent = selectedImages.length + ' фото'
+
+                        albumItemInfo.appendChild(albumElementName)
+                        albumItemInfo.appendChild(albumElementCount)
+                        newAlbumElement.appendChild(imageAlbumElement)
+                        newAlbumElement.appendChild(albumItemInfo)
+                        albumsBlock.appendChild(newAlbumElement)
+
+                        for (let j = 0; j < selectedImages.length; j++)
+                            selectedImages[j].dataset.album = data
+
                         clear()
                         closeModal()
                     }
@@ -287,20 +414,8 @@ deleteButton.onclick = function()
         dataType: 'html',
         success: function(data)
         {   
-            for (let i = selectedImages.length - 1; i >= 0; i--)
-            {
-                for (let j = 0; j < imagesList.length; j++)
-                    if (imagesList[j].dataset.id == selectedImages[i].dataset.id)
-                    {
-                        imagesList[j].remove()
-                        break
-                    }
-                if (selectedImages[i].parentNode.parentNode.getElementsByClassName('roll-image').length == 1)
-                    selectedImages[i].parentNode.parentNode.remove()
-                else
-                    selectedImages[i].remove();
-            }
-            imageCount.textContent = 'Изображений: ' + document.getElementsByClassName('roll-image').length
+            checkImagesInAlbums(3)
+
             clear()
             closeModal()
         }

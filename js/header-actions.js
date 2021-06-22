@@ -6,6 +6,16 @@ var selectedImages = document.getElementsByClassName('selected-image')
 var manageElements = document.getElementsByClassName('manage-images')[0]
 var imagesCount = document.getElementsByClassName('images-count')[0]
 var imagesUL = document.getElementById('images-unordered-list')
+var searchField = document.getElementsByClassName('search-field')[0]
+
+searchField.addEventListener('keydown', function(e) {
+    if (e.keyCode === 13) {
+        if (searchField.value.length > 2)
+            window.location.href = 'search.php?value=' + searchField.value
+        else
+            alert('Длина поискового запроса должна составлять не менее трёх символов')
+    }
+})
 
 
 var validExtensions = {
